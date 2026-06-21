@@ -5,6 +5,7 @@ import org.yearup.models.Category;
 import org.yearup.repository.CategoryRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CategoryService
@@ -16,32 +17,58 @@ public class CategoryService
         this.categoryRepository = categoryRepository;
     }
 
+
+    /**
+     *
+     * This Method will be returning all of the categories.
+     * @return
+     */
     public List<Category> getAllCategories()
     {
         // get all categories
-        return null;
+        return categoryRepository.findAll();
     }
 
-    public Category getById(int categoryId)
+    /**
+     * this will return the category based on the type of id that will be given to it.
+     * @param categoryId
+     * @return
+     */
+    public Optional<Category> getById(int categoryId)
     {
         // get category by id
-        return null;
+        return categoryRepository.findById(categoryId);
     }
 
+
+
+
+
+
+
+
+    ///////////////////////////////////////////////////////////////
     public Category create(Category category)
     {
         // create a new category
-        return null;
+        return categoryRepository.save(category);
     }
 
+
+
+    //figure out how to update something
     public Category update(int categoryId, Category category)
     {
         // update category and return the updated category
         return null;
     }
 
+
+
     public void delete(int categoryId)
     {
         // delete category
+
+        categoryRepository.deleteById(categoryId);
     }
 }
