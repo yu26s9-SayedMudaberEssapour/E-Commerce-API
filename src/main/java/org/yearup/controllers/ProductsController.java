@@ -22,15 +22,20 @@ public class ProductsController
         this.productService = productService;
     }
 
+
+
     @GetMapping("")
     @PreAuthorize("permitAll()")
     public List<Product> search(@RequestParam(name="cat", required = false) Integer categoryId,
                                 @RequestParam(name="minPrice", required = false) Double minPrice,
                                 @RequestParam(name="maxPrice", required = false) Double maxPrice,
-                                @RequestParam(name="subCategory", required = false) String subCategory)
+                                @RequestParam(name="subCategory", required = false) String subCategory,
+                                @RequestParam(name="featured", required = false) Boolean featured)
     {
         return productService.search(categoryId, minPrice, maxPrice, subCategory);
     }
+
+
 
     @GetMapping("{id}")
     @PreAuthorize("permitAll()")
@@ -51,6 +56,11 @@ public class ProductsController
         Product saved = productService.create(product);
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
+
+
+
+
+
 
     @PutMapping("{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")

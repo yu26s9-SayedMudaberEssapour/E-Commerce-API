@@ -34,10 +34,10 @@ public class CategoryService
      * @param categoryId
      * @return
      */
-    public Optional<Category> getById(int categoryId)
+    public Category getById(int categoryId)
     {
         // get category by id
-        return categoryRepository.findById(categoryId);
+        return categoryRepository.findById(categoryId).orElse(null);
     }
 
 
@@ -60,7 +60,16 @@ public class CategoryService
     public Category update(int categoryId, Category category)
     {
         // update category and return the updated category
-        return null;
+
+
+//        category.setCategoryId(categoryId);
+        Category existing = categoryRepository.findById(categoryId).orElseThrow();
+
+        existing.setCategoryId(category.getCategoryId());
+        existing.setName(category.getName());
+        existing.setDescription(category.getDescription());
+
+        return categoryRepository.save(existing);
     }
 
 
