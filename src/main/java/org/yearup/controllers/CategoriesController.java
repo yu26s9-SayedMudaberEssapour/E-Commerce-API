@@ -25,6 +25,7 @@ import static org.springframework.security.authorization.AuthorityReactiveAuthor
 
 @RestController
 @RequestMapping("/categories")
+@CrossOrigin
 public class CategoriesController
 {
     private CategoryService categoryService;

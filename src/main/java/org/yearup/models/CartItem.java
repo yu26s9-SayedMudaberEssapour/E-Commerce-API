@@ -2,6 +2,7 @@ package org.yearup.models;
 
 import jakarta.persistence.*;
 
+//this is the actual shopping cart that is in the data base
 @Entity
 @Table(name = "shopping_cart")
 public class CartItem
