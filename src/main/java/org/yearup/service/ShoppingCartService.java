@@ -124,5 +124,16 @@ public class ShoppingCartService
     }
 
 
+    public ShoppingCart updateProduct(int userId, int productId, int newQuantity) {
+        CartItem foundItem = shoppingCartRepository.findByUserIdAndProductId(userId, productId);
+
+        if (foundItem != null) {
+            foundItem.setQuantity(newQuantity);
+            shoppingCartRepository.save(foundItem);
+        }
+        return getByUserId(userId);
+    }
+
+
 
 }

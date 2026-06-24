@@ -57,15 +57,14 @@ public class CategoryService
 
 
     //figure out how to update something
+    //figure out how to update something
     public Category update(int categoryId, Category category)
     {
         // update category and return the updated category
+        category.setCategoryId(categoryId);
 
-
-//        category.setCategoryId(categoryId);
         Category existing = categoryRepository.findById(categoryId).orElseThrow();
 
-        existing.setCategoryId(category.getCategoryId());
         existing.setName(category.getName());
         existing.setDescription(category.getDescription());
 

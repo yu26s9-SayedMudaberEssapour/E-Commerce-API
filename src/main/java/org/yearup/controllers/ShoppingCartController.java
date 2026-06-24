@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.yearup.models.CartItem;
 import org.yearup.models.ShoppingCart;
 import org.yearup.models.ShoppingCartItem;
 import org.yearup.models.User;
@@ -57,6 +58,9 @@ public class ShoppingCartController {
 
     @PostMapping("/products/{productId}")
     public ResponseEntity<ShoppingCart> addNewProductToShoppingCart(@PathVariable int productId, Principal principal) {
+        if (principal == null)
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+
         String userName = principal.getName();
         User user = userService.getByUserName(userName);
         int userId = user.getId();
@@ -77,17 +81,6 @@ public class ShoppingCartController {
 
     @DeleteMapping
     public ShoppingCart delete(Principal principal){
-
-
-        //Use principal.getName() to get the username string.
-        //
-        //Look up the User object using userService.getByUserName(userName).
-        //
-        //Get the userId from that object.
-        //
-        //Call the corresponding service method (addNewProductToShoppingCart or delete) and pass it the required IDs.
-        //
-        //Return the result!
         if (principal == null)
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
 
@@ -99,5 +92,25 @@ public class ShoppingCartController {
 
         return shoppingCartService.delete(userId);
     }
+
+
+
+
+    @PutMapping("/products/{productId}")
+    public ResponseEntity<ShoppingCart> updateProduct(@PathVariable int productId, Principal principal, @RequestBody CartItem cartItem){
+        String userName = principal.getName();
+        User user = userService.getByUserName(userName);
+        int userId = user.getId();
+
+        int newQuantity = cartItem.getQuantity();
+
+        ShoppingCart saved = shoppingCartService.updateProduct(userId, productId, newQuantity);
+
+
+        return ResponseEntity.ok(saved);
+
+
+    }
+
 
 }
