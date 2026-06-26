@@ -146,6 +146,86 @@ Features:
 
 ---
 
+# Diagram
+```mermaid
+classDiagram
+    direction TB
+
+    %% Controller Layer
+    class ProfileController {
+        -ProfileService profileService
+        -UserService userService
+        +getProfile(Principal principal) Profile
+        +updateProfile(Principal principal, Profile profile) Profile
+    }
+
+    class ShoppingCartController {
+        -ShoppingCartService shoppingCartService
+        -UserService userService
+        +getCart(Principal principal) ShoppingCart
+        +addToCart(Principal principal, ShoppingCartItem item) ShoppingCart
+        +updateCart(Principal principal, int productId, ShoppingCartItem item) ShoppingCart
+        +delete(Principal principal) ShoppingCart
+    }
+
+    %% Service Layer
+    class ProfileService {
+        -ProfileRepository profileRepository
+        +getByUserId(int userId) Profile
+        +update(int userId, Profile profile) Profile
+    }
+
+    class ShoppingCartService {
+        -ShoppingCartRepository shoppingCartRepository
+        +getByUserId(int userId) ShoppingCart
+        +delete(int userId) ShoppingCart
+    }
+
+    %% Repository Layer
+    class ProfileRepository {
+        <<interface>>
+        +findByUserId(int userId) Profile
+    }
+
+    class ShoppingCartRepository {
+        <<interface>>
+        +deleteByUserId(int userId) void
+    }
+
+    %% Entity Layer
+    class Profile {
+        -int userId
+        -String firstName
+        -String lastName
+        -String phone
+        -String email
+        -String address
+        -String city
+        -String state
+        -String zip
+    }
+
+    class ShoppingCart {
+        -int userId
+        -Map items
+    }
+
+    class ShoppingCartItem {
+        -int productId
+        -int quantity
+        -double discountPercent
+    }
+
+    %% Connections
+    ProfileController --> ProfileService : calls
+    ShoppingCartController --> ShoppingCartService : calls
+    ProfileService --> ProfileRepository : uses
+    ShoppingCartService --> ShoppingCartRepository : uses
+    ProfileRepository ..> Profile : manages
+    ShoppingCartRepository ..> ShoppingCart : manages
+    ShoppingCart "1" *-- "many" ShoppingCartItem : contains
+
+
 # Tech Stack
 
 | Technology | Purpose |
