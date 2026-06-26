@@ -146,7 +146,12 @@ Features:
 
 ---
 
-# Diagram
+---
+
+# Class Diagram
+
+The following UML class diagram illustrates the relationships between the Shopping Cart and User Profile modules. It highlights the layered architecture, showing how controllers interact with services, services interact with repositories, and repositories manage the underlying domain models.
+
 ```mermaid
 classDiagram
     direction TB
@@ -192,7 +197,7 @@ classDiagram
         +deleteByUserId(int userId) void
     }
 
-    %% Entity Layer
+    %% Domain Models
     class Profile {
         -int userId
         -String firstName
@@ -207,7 +212,7 @@ classDiagram
 
     class ShoppingCart {
         -int userId
-        -Map items
+        -Map~Integer, ShoppingCartItem~ items
     }
 
     class ShoppingCartItem {
@@ -216,15 +221,18 @@ classDiagram
         -double discountPercent
     }
 
-    %% Connections
+    %% Relationships
     ProfileController --> ProfileService : calls
     ShoppingCartController --> ShoppingCartService : calls
+
     ProfileService --> ProfileRepository : uses
     ShoppingCartService --> ShoppingCartRepository : uses
+
     ProfileRepository ..> Profile : manages
     ShoppingCartRepository ..> ShoppingCart : manages
-    ShoppingCart "1" *-- "many" ShoppingCartItem : contains
 
+    ShoppingCart *-- "many" ShoppingCartItem : contains
+```
 
 # Tech Stack
 
